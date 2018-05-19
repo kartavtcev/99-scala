@@ -14,7 +14,7 @@ for(i <- 1 to 10) print(s"${fib(i).getOrElse(-1)}, ")
 
 
 // worst-case space compl O(n), worst-case time compl O(n)
-//class Tree(val x: Int, val l: Some[Tree], val r: Some[Tree])
+//class Tree(var x: Int, var l: Tree, var r: Tree)
 sealed trait Tree[+A]
 case object Leaf extends Tree[Nothing]
 case class Branch[A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
