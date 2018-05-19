@@ -19,19 +19,19 @@ sealed trait Tree[+A]
 case object Leaf extends Tree[Nothing]
 case class Branch[A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
 
-def dist(x : Int, y : Int) = math.abs(x - y)
-// valid, aka find intervals borders
-def maxDiffPair(p : (Int, Int), n : Int): (Int, Int) = {
-    val _1 = dist(p._1, p._2)
-    val _2 = dist(p._1, n)
-    val _3 = dist(p._2, n)
-
-    if(_1 >= _2 && _1 >= _3) p
-    else if (_2 >= _3) (p._1, n)
-    else (p._2, n)
-}
-
 def amplitude(tree : Tree[Int]) : Int = {
+    def dist(x : Int, y : Int) = math.abs(x - y)
+    // valid, aka find intervals borders
+    def maxDiffPair(p : (Int, Int), n : Int): (Int, Int) = {
+      val _1 = dist(p._1, p._2)
+      val _2 = dist(p._1, n)
+      val _3 = dist(p._2, n)
+
+      if(_1 >= _2 && _1 >= _3) p
+      else if (_2 >= _3) (p._1, n)
+      else (p._2, n)
+    }
+
     def loop(t: Tree[Int], pair: (Int, Int)): Int = t match {
       case Leaf => dist(pair._1, pair._2)
       case Branch(v, l, r) => {
