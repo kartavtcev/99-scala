@@ -1,5 +1,8 @@
+import scala.annotation.tailrec
+
 // worst-case space compl O(1), worst-case time compl O(n)
 def fib (n : Int) : Option[Int] = {
+  @tailrec
   def loop(i : Int, n1 : Int, n2: Int) : Option[Int] = {
     if (i == n) Some(n1 + n2)
     else if (i == 1) loop(i + 1, 0, 1)
