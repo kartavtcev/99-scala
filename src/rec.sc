@@ -21,12 +21,11 @@ for(i <- 1 to 10) print(s"${fib(i).getOrElse(-1)}, ")
 //class Tree(var x: Int, var l: Tree, var r: Tree)
 sealed trait Tree[+A]
 case object Leaf extends Tree[Nothing]
-case class Branch[A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
+case class Branch[+A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
 
 def amplitude(tree : Tree[Int]) : Int = {
     def dist(x : Int, y : Int) = math.abs(x - y)
-    // valid, aka find intervals borders
-    def maxDiffPair(p : (Int, Int), n : Int): (Int, Int) = {
+    def maxIntervalBorders(p : (Int, Int), n : Int): (Int, Int) = {
       val _1 = dist(p._1, p._2)
       val _2 = dist(p._1, n)
       val _3 = dist(p._2, n)
@@ -36,15 +35,11 @@ def amplitude(tree : Tree[Int]) : Int = {
       else (p._2, n)
     }
 
-    def loop(t: Tree[Int], pair: (Int, Int)): Int = t match {
-      case Leaf => dist(pair._1, pair._2)
+    def loop(t: Tree[Int], borders: (Int, Int)): Int = t match {
+      case Leaf => dist(borders._1, borders._2)
       case Branch(v, l, r) => {
-        val mdp = maxDiffPair(pair,v)
-
-        val _l = loop(l, mdp)
-        val _r = loop(r, mdp)
-
-        if(_l >= _r) _l else _r
+        val mdp = maxIntervalBorders(borders,v)
+        math.max(loop(l, mdp), loop(r, mdp))
       }
     }
 
