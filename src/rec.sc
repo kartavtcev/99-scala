@@ -5,9 +5,7 @@ def fib (n : Int) : Option[Int] = {
   @tailrec
   def loop(i : Int, n1 : Int, n2: Int) : Option[Int] = {
     if (i == n) Some(n1 + n2)
-    // else if (i == 1) loop(i + 1, 1, 0) // this line can replace 2 lines below, but is less clear
-    else if (i == 1) loop(i + 1, 0, 1)
-    else if (i == 2) loop(i + 1, 0, 1)
+    else if (i == 1) loop(i + 1, 1, 0)
     else if (i < n) loop( i + 1 , n2, n1 + n2)
     else None
   }
@@ -25,14 +23,14 @@ case class Branch[+A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
 
 def amplitude(tree : Tree[Int]) : Int = {
     def dist(x : Int, y : Int) = math.abs(x - y)
-    def maxIntervalBorders(p : (Int, Int), n : Int): (Int, Int) = {
-      val _1 = dist(p._1, p._2)
-      val _2 = dist(p._1, n)
-      val _3 = dist(p._2, n)
+    def maxIntervalBorders(borders : (Int, Int), point : Int): (Int, Int) = {
+      val _1 = dist(borders._1, borders._2)
+      val _2 = dist(borders._1, point)
+      val _3 = dist(borders._2, point)
 
-      if(_1 >= _2 && _1 >= _3) p
-      else if (_2 >= _3) (p._1, n)
-      else (p._2, n)
+      if(_1 >= _2 && _1 >= _3) borders
+      else if (_2 >= _3) (borders._1, point)
+      else (borders._2, point)
     }
 
     def loop(t: Tree[Int], borders: (Int, Int)): Int = t match {
