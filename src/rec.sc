@@ -15,11 +15,21 @@ def fib (n : Int) : Option[Int] = {
 for(i <- 1 to 10) print(s"${fib(i).getOrElse(-1)}, ")
 
 
+// cats docs fib version
+@tailrec
+def fib1(n: Int, a: Int = 0, b: Int = 1): Int = {
+  if(n > 0) fib1(n-1, b, a+b)
+  else a
+}
+
+for(i <- 0 to 9) print(s"${(fib1(i))}, ")
+
+
 // worst-case space compl O(n), worst-case time compl O(n)
 //class Tree(var x: Int, var l: Tree, var r: Tree)
 sealed trait Tree[+A]
-case object Leaf extends Tree[Nothing]
-case class Branch[+A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
+final case object Leaf extends Tree[Nothing]
+final case class Branch[+A] (value: A, left: Tree[A], right: Tree[A]) extends Tree[A]
 
 def amplitude(tree : Tree[Int]) : Int = {
     def dist(x : Int, y : Int) = math.abs(x - y)
